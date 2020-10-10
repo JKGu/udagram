@@ -6,7 +6,6 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   // Init the Express application
   const app = express();
-
   // Set the network port
   const port = process.env.PORT || 8082;
   
@@ -39,8 +38,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     //    3. send the resulting file in the response
     await res.status(200).sendFile(filteredpath);
     //    4. deletes any files on the server on finish of the response
-    deleteLocalFiles([filteredpath])
-  }
+    //deleteLocalFiles([filteredpath]);
+    res.on('finish', () => deleteLocalFiles([filteredpath]));
+  });
   //! END @TODO1
   
   // Root Endpoint
